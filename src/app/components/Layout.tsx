@@ -27,8 +27,8 @@ export function Layout({ children }: LayoutProps) {
     <div className="min-h-screen bg-gray-50">
       <Sidebar />
       <Topbar />
-      <main className="ml-64 pt-16">
-        <div className="p-8">
+      <main className="pt-16 md:pl-64 px-4 md:px-6 pb-8">
+        <div className="p-4 md:p-8">
           {children}
         </div>
       </main>

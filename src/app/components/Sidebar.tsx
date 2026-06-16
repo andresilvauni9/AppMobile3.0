@@ -24,7 +24,7 @@ export function Sidebar() {
   const { logout } = useAuth();
 
   return (
-    <aside className="w-64 bg-[#4B0012] text-white h-screen fixed left-0 top-0 flex flex-col">
+    <aside className="hidden md:flex w-64 bg-[#4B0012] text-white h-screen fixed left-0 top-0 flex-col">
       {/* Logo */}
       <div className="p-6 border-b border-white/10">
         <h1 className="text-2xl font-bold">Projeto Midas</h1>
@@ -32,7 +32,7 @@ export function Sidebar() {
       </div>
 
       {/* Menu Items */}
-      <nav className="flex-1 p-4 space-y-1">
+      <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
         {menuItems.map((item) => {
           const Icon = item.icon;
           const isActive = location.pathname === item.path;

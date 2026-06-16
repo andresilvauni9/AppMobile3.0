@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import type { Usuario, LoginRequest } from '../types';
+import { STORAGE_KEYS } from '../constants';
 import { usuarioService } from '../services/usuarioService';
 
 interface AuthContextType {
@@ -18,33 +19,30 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Verificar se há token no localStorage ao carregar
-    const token = localStorage.getItem('midas_token');
-    const userStr = localStorage.getItem('midas_user');
-    
+    const token = localStorage.getItem(STORAGE_KEYS.TOKEN);
+    const userStr = localStorage.getItem(STORAGE_KEYS.USER);
+
     if (token && userStr) {
       try {
         const userData = JSON.parse(userStr);
         setUser(userData);
       } catch (error) {
         console.error('Erro ao carregar usuário do localStorage', error);
-        localStorage.removeItem('midas_token');
-        localStorage.removeItem('midas_user');
+        localStorage.removeItem(STORAGE_KEYS.TOKEN);
+        localStorage.removeItem(STORAGE_KEYS.USER);
       }
     }
-    
+
     setIsLoading(false);
   }, []);
 
   const login = async (credentials: LoginRequest) => {
-  const response = await usuarioService.autenticar(credentials);
+    const response = await usuarioService.autenticar(credentials);
 
-  console.log("RESPOSTA LOGIN:", response);
-
-  const usuarioId = response.usuario.id || response.usuario.Id || 0;
-  const nomeUsuario = response.usuario.nomeUsuario || response.usuario.NomeUsuario || '';
-  const idEmpresa = response.usuario.idEmpresa || response.usuario.IdEmpresa || 0;
-  const perfil = response.usuario.perfil || response.usuario.Perfil || '';
+    const usuarioId = response.usuario.id || response.usuario.Id || 0;
+    const nomeUsuario = response.usuario.nomeUsuario || response.usuario.NomeUsuario || '';
+    const idEmpresa = response.usuario.idEmpresa || response.usuario.IdEmpresa || 0;
+    const perfil = response.usuario.perfil || response.usuario.Perfil || '';
 
   const authenticatedUser: Usuario = {
     IdUsuario: usuarioId,
@@ -60,16 +58,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     Token: response.token,
   };
 
-  localStorage.setItem('midas_token', response.token);
-  localStorage.setItem('midas_user', JSON.stringify(authenticatedUser));
+  localStorage.setItem(STORAGE_KEYS.TOKEN, response.token);
+  localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(authenticatedUser));
 
   setUser(authenticatedUser);
 };
 
 
   const logout = () => {
-    localStorage.removeItem('midas_token');
-    localStorage.removeItem('midas_user');
+    localStorage.removeItem(STORAGE_KEYS.TOKEN);
+    localStorage.removeItem(STORAGE_KEYS.USER);
     setUser(null);
   };
 
@@ -78,7 +76,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (!prev) return prev;
 
       const updatedUser = { ...prev, ...data };
-      localStorage.setItem('midas_user', JSON.stringify(updatedUser));
+      localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(updatedUser));
       return updatedUser;
     });
   };

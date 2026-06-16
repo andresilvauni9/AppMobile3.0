@@ -50,16 +50,17 @@ export function LoginPage() {
 
     try {
       await login({
-        nomeUsuario: nome,
+        nomeUsuario: nome.trim(),
         PasswordString: password,
       });
 
       toast.success('Login realizado com sucesso!');
       navigate('/dashboard');
     } catch (error: any) {
-      toast.error(
-        error.message || 'Erro ao fazer login. Verifique suas credenciais.',
-      );
+      const message =
+        error?.message ||
+        'Erro ao fazer login. Verifique suas credenciais e a conexão.';
+      toast.error(message);
     } finally {
       setIsLoading(false);
     }
@@ -102,15 +103,15 @@ export function LoginPage() {
         </div>
       </header>
       {/* Hero */}
-      <main className="relative z-10 flex min-h-[85vh] items-center justify-between px-10">
+      <main className="relative z-10 flex min-h-[85vh] flex-col gap-8 px-4 py-6 lg:flex-row lg:items-center lg:justify-between lg:px-10">
         {/* Left */}
-        <section className="max-w-3xl">
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#FFC107]/20 bg-[#FFC107]/10 px-5 py-2 text-sm text-[#FFC107] backdrop-blur-md">
+        <section className="max-w-3xl lg:max-w-xl">
+          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#FFC107]/20 bg-[#FFC107]/10 px-4 py-2 text-sm text-[#FFC107] backdrop-blur-md">
             <ShieldCheck className="h-4 w-4" />
             Controle financeiro moderno e inteligente
           </div>
 
-          <h1 className="mb-6 text-6xl font-black leading-tight">
+          <h1 className="mb-6 text-4xl font-black leading-tight sm:text-5xl lg:text-6xl">
             Transforme sua
             <span className="bg-gradient-to-r from-[#FFC107] to-yellow-300 bg-clip-text text-transparent">
               {' '}
@@ -119,15 +120,15 @@ export function LoginPage() {
             com o Projeto Midas
           </h1>
 
-          <p className="max-w-2xl text-xl leading-relaxed text-gray-300">
+          <p className="text-base leading-relaxed text-gray-300 sm:text-lg">
             Gerencie gastos, acompanhe metas, visualize projeções e tome
             decisões financeiras com uma plataforma moderna inspirada nas
             melhores experiências do mercado.
           </p>
 
-          <div className="mt-10 flex flex-wrap gap-4">
-            <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-5 py-4 backdrop-blur-xl">
-              <LineChart className="h-8 w-8 text-[#FFC107]" />
+          <div className="mt-8 grid gap-4 sm:grid-cols-2">
+            <div className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-4 backdrop-blur-xl">
+              <LineChart className="mt-1 h-7 w-7 text-[#FFC107]" />
               <div>
                 <p className="font-semibold">Análises Inteligentes</p>
                 <span className="text-sm text-gray-400">
@@ -136,8 +137,8 @@ export function LoginPage() {
               </div>
             </div>
 
-            <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-5 py-4 backdrop-blur-xl">
-              <PiggyBank className="h-8 w-8 text-[#FFC107]" />
+            <div className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-4 backdrop-blur-xl">
+              <PiggyBank className="mt-1 h-7 w-7 text-[#FFC107]" />
               <div>
                 <p className="font-semibold">Metas Financeiras</p>
                 <span className="text-sm text-gray-400">
@@ -153,9 +154,9 @@ export function LoginPage() {
           className={`transition-all duration-700 ${showLogin
             ? 'translate-y-0 opacity-100'
             : 'translate-y-10 opacity-0'
-            }`}
+          } w-full max-w-xl lg:max-w-md`}
         >
-          <div className="w-[420px] rounded-3xl border border-white/10 bg-white/10 p-8 shadow-2xl backdrop-blur-2xl">
+          <div className="w-full rounded-3xl border border-white/10 bg-white/10 p-6 shadow-2xl backdrop-blur-2xl sm:p-8">
             <div className="mb-8">
               <h2 className="text-3xl font-bold text-white">
                 Entrar na plataforma
